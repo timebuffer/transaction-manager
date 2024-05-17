@@ -11,5 +11,13 @@ module.exports = {
         apiUrl: 'https://sandbox.raiffeisen.com/transactions',     // Example URL, use the correct one
         //cert: fs.readFileSync(path.join(__dirname, '../cert/eidas-cert.pem')),
         //key: fs.readFileSync(path.join(__dirname, '../cert/eidas-key.pem'))
+    },
+    n26: {
+        clientId: 'YOUR_N26_CLIENT_ID', // Replace with your N26 client ID
+        clientSecret: 'YOUR_N26_CLIENT_SECRET', // Replace with your N26 client secret
+        redirectUri: 'http://localhost:3000/callback', // Replace with your redirect URI
+        authUrl: 'https://api.tech26.de/oauth/authorize', // N26 OAuth authorization URL
+        tokenUrl: 'https://api.tech26.de/oauth/token',    // N26 OAuth token URL
+        apiUrl: 'https://api.tech26.de'                  // N26 API base URL
     }
 };
