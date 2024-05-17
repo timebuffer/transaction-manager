@@ -1,11 +1,10 @@
 module.exports = {
     raiffeisen: {
-        apiUrl: 'https://api.raiffeisen.com/transactions',
-        apiKey: 'YOUR_RAIFFEISEN_API_KEY'
-    },
-    quickbooks: {
-        apiUrl: 'https://quickbooks.api.intuit.com/v3/company/YOUR_COMPANY_ID/transactions',
-        apiKey: 'YOUR_QUICKBOOKS_API_KEY'
+        clientId: 'YOUR_CLIENT_ID',
+        clientSecret: 'YOUR_CLIENT_SECRET',
+        redirectUri: 'http://localhost:3000/callback',
+        authUrl: 'https://auth.raiffeisen.com/oauth/authorize',
+        tokenUrl: 'https://auth.raiffeisen.com/oauth/token',
+        apiUrl: 'https://api.raiffeisen.com/transactions'
     }
-    // Add more configurations as needed
 };

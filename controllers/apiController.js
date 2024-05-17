@@ -4,11 +4,12 @@ const CsvUtils = require('../utils/csvUtils');
 
 class ApiController {
     static async fetchAndSaveTransactions(req, res) {
-        const { bank } = req.params;
+        const { code } = req.query;
         try {
-            const transactionsData = await BankApiService.fetchTransactions(bank);
+            const accessToken = await BankApiService.getAccessToken(code);
+            const transactionsData = await BankApiService.fetchTransactions(accessToken);
             const transactions = transactionsData.map(t => new Transaction(t.date, t.description, t.amount, t.type));
-            await CsvUtils.saveToCsv(transactions, `${bank}_transactions.csv`);
+            await CsvUtils.saveToCsv(transactions, `raiffeisen_transactions.csv`);
             res.status(200).json(transactions);
         } catch (error) {
             res.status(500).send('Error fetching and saving transactions');
