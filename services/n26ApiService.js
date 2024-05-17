@@ -1,21 +1,16 @@
 const axios = require('axios');
-const https = require('https');
+const qs = require('querystring');
 const config = require('../config/config');
 
-const httpsAgent = new https.Agent({
-    cert: config.raiffeisen.cert,
-    key: config.raiffeisen.key
-});
-
-class BankApiService {
+class N26ApiService {
     static getAuthorizationUrl() {
-        const { clientId, redirectUri, authUrl } = config.raiffeisen;
+        const { clientId, redirectUri, authUrl } = config.n26;
         const scope = 'YOUR_SCOPES'; // Define the required scopes
         return `${authUrl}?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
     }
 
     static async getAccessToken(code) {
-        const { clientId, clientSecret, redirectUri, tokenUrl } = config.raiffeisen;
+        const { clientId, clientSecret, redirectUri, tokenUrl } = config.n26;
         const params = {
             grant_type: 'authorization_code',
             code: code,
@@ -25,9 +20,8 @@ class BankApiService {
         };
 
         try {
-            const response = await axios.post(tokenUrl, new URLSearchParams(params), {
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                //httpsAgent
+            const response = await axios.post(tokenUrl, qs.stringify(params), {
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             });
             return response.data;
         } catch (error) {
@@ -38,9 +32,8 @@ class BankApiService {
 
     static async fetchTransactions(accessToken) {
         try {
-            const response = await axios.get(config.raiffeisen.apiUrl, {
-                headers: { 'Authorization': `Bearer ${accessToken}` },
-                //httpsAgent
+            const response = await axios.get(`${config.n26.apiUrl}/api/v2/accounts`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
             });
             return response.data;
         } catch (error) {
@@ -50,4 +43,4 @@ class BankApiService {
     }
 }
 
-module.exports = BankApiService;
+module.exports = N26ApiService;
